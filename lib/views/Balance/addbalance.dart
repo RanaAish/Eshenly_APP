@@ -1,4 +1,6 @@
 // ignore_for_file: unnecessary_import, prefer_typing_uninitialized_variables, non_constant_identifier_names, unused_local_variable, deprecated_member_use, prefer_const_constructors, sized_box_for_whitespace, unnecessary_brace_in_string_interps
+import 'dart:math';
+
 import 'package:esh7enly/core/widgets/daioulge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
@@ -113,8 +115,6 @@ class _AddbalanceState extends State<Addbalance> {
           child:
           Container(
           margin: EdgeInsets.only(top: 6),
-          //   decoration: boxDecorationStylealert,
-         // width: 230,
           padding: EdgeInsets.symmetric(horizontal: 10),
 
           child:  ListView(
@@ -255,10 +255,10 @@ class _AddbalanceState extends State<Addbalance> {
                           OnTab: () {},
                         )),
                     Container(
-                        height: 36,//48
-                        width: screenWidth*0.82,
-                        margin: const EdgeInsets.only(
-                            top: 18, right: 13, left: 14),
+                        height: screenHeight/20,//48
+                        width: screenWidth*.7,
+                        margin:  EdgeInsets.only(
+                            top: 18, right:screenHeight/50, left: screenHeight/50),
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: CustomColors.MainColor,
@@ -266,10 +266,7 @@ class _AddbalanceState extends State<Addbalance> {
                           borderRadius:
                           BorderRadius.circular(5),
                         ),
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                right: 0, left: 0),
-                            child: Row(
+                        child: Row(
                                 mainAxisAlignment:
                                 MainAxisAlignment
                                     .center,
@@ -285,8 +282,8 @@ class _AddbalanceState extends State<Addbalance> {
                                         });
                                       },
                                       child: Container(
-                                          width: screenWidth*.38, //133
-                                          height: 50,
+                                          width: (screenWidth*.7)*.49, //133
+                                          height: screenHeight/20,
                                           color: pressbank
                                               ? CustomColors
                                               .MainColor
@@ -317,7 +314,7 @@ class _AddbalanceState extends State<Addbalance> {
                                           ),))
                                   ),
 
-                                  SizedBox(width: 0), //26
+
                                   GestureDetector(
                                       onTap: () {
                                         setState(() {
@@ -327,8 +324,8 @@ class _AddbalanceState extends State<Addbalance> {
                                       },
                                       //Expanded(child:
                                       child: Container(
-                                        width: screenWidth*.36, //125
-                                        height: 50,
+                                        width: (screenWidth*.7)*.48, //125
+                                        height:screenHeight/20,
                                         color: presscash
                                             ? CustomColors
                                             .MainColor
@@ -358,7 +355,7 @@ class _AddbalanceState extends State<Addbalance> {
                                         ),)
                                   ),
 
-                                ]))),
+                                ])),
                     presscash == true
                         ? getbodyvodafonecache()
                         : SizedBox(height: 0, width: 0),
@@ -477,12 +474,14 @@ class _AddbalanceState extends State<Addbalance> {
 
     List<PaymentSdkAPms> apms = [];
     apms.add(PaymentSdkAPms.AMAN);
+    var idnum = Random();
+
     final configuration = PaymentSdkConfigurationDetails(
       //production
         profileId: "135102",
         serverKey: "S6JNKTLWMN-JHMWN69W6T-LGBM26GMDW",
         clientKey: "CKKM7G-T7DK6H-NVQGPV-79P22K",
-        cartId: "1",
+        cartId: idnum.nextInt(100).toString(),
         cartDescription: "ادفع الان مع اشحنلي",
         merchantName: "اشحنلي",
         screentTitle:  LocalizeAndTranslate.getLanguageCode() == 'en'
@@ -503,8 +502,11 @@ class _AddbalanceState extends State<Addbalance> {
 
     final theme = IOSThemeConfigurations();
     theme.logoImage = "assets/logo.png";
-    theme.secondaryColor = "bc3827"; // Color hex value
+    theme.secondaryColor = "#bc3827"; // Color hex value
     theme.buttonColor = "bc3827";
+    theme.strokeColor="#bc3827";
+    theme.secondaryFontColor="#bc3827";
+    theme.titleFontColor="#bc382";
 
     configuration.iOSThemeConfigurations = theme;
     //configuration.tokeniseType = PaymentSdkTokeniseType.MERCHANT_MANDATORY;
@@ -653,10 +655,8 @@ class _AddbalanceState extends State<Addbalance> {
   }
 
   getbodybank(double screenHeight) {
-
     EasyLoading.dismiss();
     var dialog = Dialog(
-
       backgroundColor:Color(0xfFFfffff),
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),

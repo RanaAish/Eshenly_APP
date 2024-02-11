@@ -12,9 +12,11 @@ import 'package:esh7enly/core/utils/colors.dart';
 import 'package:esh7enly/core/widgets/customtext.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
+import '../../models/category.dart';
+
 class MobileCategory extends StatefulWidget {
-  final String  categoryname;
-  const MobileCategory({super.key,required this.categoryname});
+
+  const MobileCategory({super.key,});
 
   @override
   State<MobileCategory> createState() => _MobileCategoryState();
@@ -22,7 +24,7 @@ class MobileCategory extends StatefulWidget {
 
 class _MobileCategoryState extends State<MobileCategory> {
   late List<Provider> lists = [];
-  int categoryid = Get.arguments;
+  Category category = Get.arguments;
 
   Future refreshproviders() async {
    
@@ -30,7 +32,7 @@ class _MobileCategoryState extends State<MobileCategory> {
     await ProviderDatabase.instance.readAllNotes().then((value) {
       setState(() {
         lists = value
-            .where((element) => element.category_id == categoryid)
+            .where((element) => element.category_id == category.id)
             .toList();
       });
     });
@@ -39,15 +41,7 @@ class _MobileCategoryState extends State<MobileCategory> {
 
   Future createprovider() async {
 
-   /* Provider obj = Provider(
-      name_ar: "ee",
-      name_en: "ll",
-      description_ar: "4",
-      description_en: "//",
-      logo: ';;',
-      sort: 2,
-    );
-    ProviderDatabase.instance.create(obj); */
+
   }
 
   CategoryApi categoryApi = CategoryApi();
@@ -69,6 +63,8 @@ class _MobileCategoryState extends State<MobileCategory> {
 //ists[index].name_ar.toString()
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         body:SingleChildScrollView(
           scrollDirection: Axis.vertical,
@@ -100,7 +96,8 @@ class _MobileCategoryState extends State<MobileCategory> {
                       ), onPressed: () {   Get.back(); },)
                     ),
                     Center(child:  Text(
-                      '   ${widget.categoryname}',
+                        LocalizeAndTranslate.getLanguageCode() == 'ar'?
+                        '   ${category.name_ar}':'   ${category.name_en}',
                       style: TextStyle(
                         fontSize: 21,
                         fontFamily: 'ReadexPro',
@@ -109,7 +106,7 @@ class _MobileCategoryState extends State<MobileCategory> {
                     )))
            ,
               ])))), SizedBox(
-                    height: lists.isEmpty ? 0 :double.parse((lists.length*70).toString()),
+                    height: lists.isEmpty ? 0 :double.parse((lists.length*screenheight*.2).toString()),
                     child: Scrollbar(
                         child: GridView.count(
                             crossAxisCount: 2,

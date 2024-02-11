@@ -31,10 +31,12 @@ class _onbroadingpageState extends State<onbroadingpage> {
   List contents = ['assets/broading3.jpeg','assets/broading2.jpeg','assets/broading1.jpeg'];
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         body: SingleChildScrollView(child:Column(children: [
        SizedBox(
-                  height: 700,child: PageView.builder(
+                  height: screenheight*.92,child: PageView.builder(
               controller: _controller,
               itemCount: contents.length,
               onPageChanged: (int index) {
@@ -47,7 +49,7 @@ class _onbroadingpageState extends State<onbroadingpage> {
                  Image.asset(contents[i]
                 );
               })),
-                   const SizedBox(height: 10),
+
                 GestureDetector(
             onTap: () async {
               if (currentIndex == contents.length - 1) {
@@ -61,8 +63,8 @@ class _onbroadingpageState extends State<onbroadingpage> {
                 );
             },
             child: Container(
-              height: 50,
-              margin: const EdgeInsets.symmetric(horizontal: 70),
+              height: screenheight/16,
+              margin: EdgeInsets.symmetric(horizontal: screenheight*.1),
               decoration: BoxDecoration(
                 color: CustomColors.MainColor,
                 borderRadius: BorderRadius.circular(20),
@@ -73,7 +75,7 @@ class _onbroadingpageState extends State<onbroadingpage> {
                   style:
                   TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 17,
                     fontFamily: 'ReadexPro',
                     fontWeight: FontWeight.bold,
                   ),

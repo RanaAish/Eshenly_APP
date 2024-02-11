@@ -6,6 +6,7 @@ import 'package:esh7enly/views/Login/changepassword.dart';
 
 import 'package:esh7enly/views/Login/otp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -55,6 +56,8 @@ class _loginState extends State<login> {
 
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -64,13 +67,11 @@ class _loginState extends State<login> {
                LocalizeAndTranslate.getLanguageCode() == 'en'
                   ? TextDirection.ltr
                   : TextDirection.rtl,
-          child: Form(
-            key: _globalKey,
-            child: Column(
+          child:  Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 header(
-                  heightcon: 210,
+                  heightcon: screenheight*.24,
                 ),
                 SizedBox(
                   height: 30,
@@ -86,18 +87,23 @@ class _loginState extends State<login> {
                 SizedBox(
                   height: 8,
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 30, right: 25, left: 25),
-                    child: CustomTextField(
+              Form(
+                key: _globalKey,
+                child: Padding(
+                  padding:
+                  EdgeInsets.only(top: screenheight/35, right: screenwidth/17, left: screenwidth/17,),
+                  child:Column(children: [
+                CustomTextField(
                       hint:  LocalizeAndTranslate.translate('enter phone'),
-                      w: 100,
+
                       type: TextInputType.number,
                       OnTab: () {},
                       controller: phonecontroller,
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(top: 25, right: 25, left: 25),
-                    child: CustomTextField(
+                    ),
+                    SizedBox(
+                      height: screenheight/30,
+                    ),
+                 CustomTextField(
                       hint:  LocalizeAndTranslate.translate("enter pass"),
                       w: 100,
                       OnTab: () {},
@@ -113,17 +119,13 @@ class _loginState extends State<login> {
                             ? const Icon(Icons.visibility_off)
                             : const Icon(Icons.visibility),
                       ),
-                    )),
-                SizedBox(
-                  height: 25,
-                ),
+                    ),
+                    SizedBox(
+                      height: screenheight/30,
+                    ),
                 Row(
                   children: [
-                    Padding(
-                      padding:  LocalizeAndTranslate.getLanguageCode() == 'en'
-                          ? EdgeInsets.only(left: 14)
-                          : EdgeInsets.only(right: 14),
-                      child: Checkbox(
+                     Checkbox(
                         activeColor: remeberme! ? Colors.blue : Colors.white,
                         checkColor: CustomColors.MainColor,
                         value: remeberme,
@@ -142,14 +144,12 @@ class _loginState extends State<login> {
                           });
                         },
                       ),
-                    ),
+
                     Text(
                        LocalizeAndTranslate.translate("rember"),
-                      style: TextStyle(fontSize: 14, fontFamily: 'ReadexPro'),
+                      style: TextStyle(fontSize: 14.sp, fontFamily: 'ReadexPro'),
                     ),
-                    SizedBox(
-                      width:  LocalizeAndTranslate.getLanguageCode() == 'en' ? 50 : 100,
-                    ),
+                    Spacer(),
                     GestureDetector(
                       onTap: () {
                         Get.to(otp(check: 2));
@@ -158,15 +158,15 @@ class _loginState extends State<login> {
                          LocalizeAndTranslate.translate("whats rember pass"),
                         style: TextStyle(
                             color: CustomColors.MainColor,
-                            fontSize: 14,
+                            fontSize: 15.sp,
                             fontFamily: 'ReadexPro'),
                       ),
                     )
                   ],
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
+                    SizedBox(
+                      height: screenheight/30,
+                    ),
                 GestureDetector(
                   onTap: () async {
                     if (_globalKey.currentState!.validate()) {
@@ -193,7 +193,7 @@ class _loginState extends State<login> {
                                 password.text, '123')
                             .then((value) {
                           print("55 $value");
-                          //  if (value != null) {
+                         //   if (value != null) {
                           if (value['status'] == true) {
                             //Get.to(home());
                             Get.to(Controllhomeview());
@@ -204,12 +204,20 @@ class _loginState extends State<login> {
                             EasyLoading.dismiss();
 
                           }
-                        });
+                        //}
+                         /*   else
+                              {
+                                EasyLoading.dismiss();
+                                DailogAlert.openbackAlert("Try Again",
+                                    LocalizeAndTranslate.translate("failedmessage"), context);
+                              }
+*/
+                            });
                       }
                     }
                   },
                   child: Container(
-                    height: 50,
+                    height: screenheight/18,
                     margin: const EdgeInsets.symmetric(horizontal: 29),
                     decoration: BoxDecoration(
                       color: CustomColors.MainColor,
@@ -227,9 +235,9 @@ class _loginState extends State<login> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 28,
-                ),
+                    SizedBox(
+                      height: screenheight/50,
+                    ),
                 Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -240,27 +248,25 @@ class _loginState extends State<login> {
                             color: Colors.grey[900],
                             fontWeight: FontWeight.w300,
                             fontFamily: 'ReadexPro',
-                            fontSize: 18),
+                            fontSize: 18.sp),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      Spacer(),
                       GestureDetector(
                         child: Text( LocalizeAndTranslate.translate("login now"),
                             style: TextStyle(
                               color: CustomColors.MainColor,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'ReadexPro',
-                              fontSize: 18,
+                              fontSize: 18.sp,
                             )),
                         onTap: () async {
                           Get.to(otp(check: 1,));
                         },
                       )
                     ]),
-                const SizedBox(
-                  height: 28,
-                ),
+                    SizedBox(
+                      height: screenheight/70,
+                    ),
                 GestureDetector(
                     onTap: () async {
                       if (textlang == "English") {
@@ -286,21 +292,21 @@ class _loginState extends State<login> {
                         Center(
                             child: SvgPicture.asset("assets/lang.svg",
                                 color: CustomColors.MainColor,
-                                width: 30,
-                                height: 30)),
+                                width: screenwidth*.1,
+                                height: screenwidth*.1)),
                         Positioned(
-                          top: 5,
-                          left: 144,
+                          top: screenheight/99,
+                          left:  (screenwidth*.1)+screenwidth*.23,
                           child: Center(
                               child: Text(textlang,
                                   style: TextStyle(
-                                      fontSize: 16, fontFamily: 'ReadexPro'))),
+                                      fontSize: 17.sp, fontFamily: 'ReadexPro'))),
                         )
                       ],
                     ))
               ],
             ),
-          ),
+          )),],)
         )));
   }
 

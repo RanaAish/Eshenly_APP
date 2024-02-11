@@ -1,28 +1,23 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, unnecessary_string_interpolations
 
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esh7enly/Services/features/CategryApi.dart';
 import 'package:esh7enly/Services/features/banner.dart';
 import 'package:esh7enly/core/utils/colors.dart';
-
 import 'package:esh7enly/core/widgets/customtext.dart';
-
 import 'package:esh7enly/core/widgets/header.dart';
-import 'package:esh7enly/db/providerdb.dart';
 import 'package:esh7enly/db/servicedb.dart';
-
 import 'package:esh7enly/models/skelton.dart';
 import 'package:esh7enly/views/Provider/providerview.dart';
-//import 'package:esh7enly/views/provider/providerview.dart';
 import 'package:esh7enly/views/HomeScreen/results.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 import 'package:localize_and_translate/localize_and_translate.dart';
-
 import '../../../db/categoriesdb.dart';
 import '../../core/widgets/customebuttunwithicon.dart';
 import '../Provider/MobileCategory.dart';
@@ -42,7 +37,7 @@ class _MyWidgetState extends State<home> {
   bool tab = false;
   List categories = [];
   final storage = const FlutterSecureStorage();
-  String? username;
+  String? username="";
   TextEditingController searchcontroller = TextEditingController();
   List searchitems = [];
   bool issearching = false;
@@ -82,9 +77,7 @@ class _MyWidgetState extends State<home> {
   }
 
   getusername() async {
-    final firebasemessiging = FirebaseMessaging.instance;
-    final fcmtoken = await firebasemessiging.getToken();
-    print(fcmtoken);
+
     await storage.read(key: 'name').then((value) {
       setState(() {
         username = value!;
@@ -129,6 +122,7 @@ class _MyWidgetState extends State<home> {
 
   @override
   void initState() {
+    getusername();
     _categoryApi.getallcategoriess();
     refrescategories();
     poster.getimages().then((value) {
@@ -138,19 +132,6 @@ class _MyWidgetState extends State<home> {
         }
       });
     });
-    getusername();
-
-    /*_categoryApi.getallcategoriess().then((value) {
-      setState(() {
-        if (value.length == 0) {
-          DailogAlert.openAlert( "Unauthenticated Login", "Faild",context);
-          
-        }
-        categories = value;
-        print('uu');
-        print(value);
-      });
-    }); */
     searchcontroller.addListener(() {
       filttercategories();
     });
@@ -173,6 +154,8 @@ class _MyWidgetState extends State<home> {
   double defaultPadding = 16.0;
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         body: SingleChildScrollView(
       child: Directionality(
@@ -184,40 +167,29 @@ class _MyWidgetState extends State<home> {
           child: Column(
             children: [
               header(
-                heightcon: 220,
+                heightcon:  screenheight*.22,
               ),
-              const SizedBox(
-                height: 20,
+               SizedBox(
+                height: screenwidth/18,
               ),
                LocalizeAndTranslate.getLanguageCode() == 'en'
                   ? Text(" ${ LocalizeAndTranslate.translate("welcomhome")} $username ",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'ReadexPro',
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           color: CustomColors.MainColor))
                   : Text(" ${ LocalizeAndTranslate.translate("welcomhome")} $username ",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'ReadexPro',
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           color: CustomColors.MainColor)),
-              const SizedBox(
-                height: 22,
+              SizedBox(
+                height: screenwidth/18,
               ),
-              /*  CustomButtonIcon(
-                onPress: () {},
-                url: "assets/icon-10(search).svg",
-                w: 60,
-                h: 40,
-                wicon: 30,
-                hicon: 55,
-                color: CustomColors.MainColor,
-              ), */
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
+               Container(
                         padding: EdgeInsets.zero,
                         margin: const EdgeInsets.only(right: 10, left: 5),
                         child: Card(
@@ -232,8 +204,8 @@ class _MyWidgetState extends State<home> {
                                   5.0,
                                 ),),
                             child: SizedBox(
-                                width: 230,
-                                height: 40,
+                                width: screenwidth*.57,
+                                height: screenwidth*.1,
                                 child: ListTile(
                                   onTap: () {},
                                   title: TextField(
@@ -251,12 +223,11 @@ class _MyWidgetState extends State<home> {
                                         const EdgeInsets.only(right: 4, top: 0, bottom: 20, left: 4),
                                         border: InputBorder.none),
                                   ),
-                                ))))),
+                                )))),
                 CustomButtonIcon(
                   onPress: () {
                     setState(() {
-                      // searchcontroller.clear();
-                      // print('searchtext ${searchcontroller.text}');
+
                       Get.to(const Results(), arguments: searchcontroller.text);
                     });
                   },
@@ -269,28 +240,26 @@ class _MyWidgetState extends State<home> {
                 )
                 ////comment
               ]),
+
               SizedBox(
-                height: 6,
-              ),
-              SizedBox(
-                  height: tab == false ? 135 : 650,
-                  width: 500,
+                  height: tab == false ? screenheight*.17 : screenheight*.76,
+                  width: screenwidth*.97,
                   child: FutureBuilder(
                       future: refrescategories(),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (providers.isEmpty) {
-                          return const Padding(
+                          return  Padding(
                               padding:
-                                  EdgeInsets.only(right: 10, left: 25, top: 17),
+                                  EdgeInsets.only(right: 10, left: 25,top: screenheight/35),
                               child: Row(children: [
                                 Expanded(
                                   child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Skeleton(height: 90, width: 100),
-                                        SizedBox(height: 7),
-                                        Skeleton(width: 100),
+                                        Skeleton(height: screenwidth*.22, width: screenwidth*.25),
+                                        SizedBox(height: screenheight/99),
+                                        Skeleton(width: screenheight*.12 ),
                                       ]),
                                 ),
                                 Expanded(
@@ -298,9 +267,9 @@ class _MyWidgetState extends State<home> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Skeleton(height: 90, width: 100),
-                                        SizedBox(height: 7),
-                                        Skeleton(width: 100),
+                                        Skeleton(height: screenwidth*.22, width: screenwidth*.25),
+                                        SizedBox(height: screenheight/99),
+                                        Skeleton(width: screenheight*.12 ),
                                       ]),
                                 ),
                                 Expanded(
@@ -308,14 +277,14 @@ class _MyWidgetState extends State<home> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Skeleton(height: 90, width: 100),
-                                        SizedBox(height: 7),
-                                        Skeleton(width: 100),
+                                        Skeleton(height: screenwidth*.22, width: screenwidth*.25),
+                                        SizedBox(height: screenheight/99),
+                                        Skeleton(width: screenheight*.12 ),
                                       ]),
                                 )
                               ]));
                         } else {
-                          return gethome(mobindex!,billsindex!);
+                          return gethome(mobindex,billsindex);
                         }
                       })),
               Stack(
@@ -417,11 +386,9 @@ class _MyWidgetState extends State<home> {
 
                     Get.to(
                         MobileCategory(
-                          categoryname:  LocalizeAndTranslate.getLanguageCode() == 'ar'
-                              ?  LocalizeAndTranslate.translate(categories[mobindex].name_ar)
-                              :  LocalizeAndTranslate.translate(categories[mobindex].name_en),
+
                         ),
-                        arguments: 28);
+                        arguments:   categories[mobindex]);
                   },
                   url: "assets/icon-08.svg",
                   w: 88,
@@ -452,11 +419,10 @@ class _MyWidgetState extends State<home> {
                   onPress: () {
                     Get.to(
                         MobileCategory(
-                          categoryname:  LocalizeAndTranslate.getLanguageCode() == 'ar'
-                              ?  LocalizeAndTranslate.translate(categories[billsindex].name_ar)
-                              :  LocalizeAndTranslate.translate(categories[billsindex].name_en),
+
+
                         ),
-                        arguments: 29);
+                        arguments:   categories[billsindex]);
                   },
                   url: "assets/icon-09.svg",
                   w:90,
@@ -497,10 +463,7 @@ class _MyWidgetState extends State<home> {
                 coloricon: CustomColors.MainColor,
                 bordercolor: CustomColors.MainColor,
               ),
-             Spacer(),
-              /* SizedBox(
-                height: 4,
-              ),*/
+
               Text(
                  LocalizeAndTranslate.translate("others ser"),
                 style: const TextStyle(
@@ -525,11 +488,8 @@ class _MyWidgetState extends State<home> {
               onTap: () {
                 Get.to(
                     providerview(
-                      categoryname:  LocalizeAndTranslate.getLanguageCode() == 'ar'
-                          ?  LocalizeAndTranslate.translate(categories[index].name_ar)
-                          :  LocalizeAndTranslate.translate(categories[index].name_en),
                     ),
-                    arguments: categories[index].id);
+                    arguments:categories[index]);
               },
               child: Column(
                   //   crossAxisAlignment: CrossAxisAlignment.center,
@@ -549,14 +509,10 @@ class _MyWidgetState extends State<home> {
                               onTap: () {
                                 Get.to(
                                     providerview(
-                                      categoryname:
-                                           LocalizeAndTranslate.getLanguageCode() == 'ar'
-                                              ?  LocalizeAndTranslate.translate(
-                                                  categories[index].name_ar)
-                                              :  LocalizeAndTranslate.translate(
-                                                  categories[index].name_en),
+
+
                                     ),
-                                    arguments: categories[index].id);
+                                    arguments:  categories[index]);
                               },
                               child: Center(
                                   child: Padding(
@@ -598,165 +554,5 @@ class _MyWidgetState extends State<home> {
         }));
   }
 
-  getsearch() {
-    return GridView.count(
-        crossAxisCount: 3,
-        shrinkWrap: true,
-        crossAxisSpacing: 0,
-        //  childAspectRatio: 23 / 12,
-        childAspectRatio: 24 / 19,
-        mainAxisSpacing: 0,
-        scrollDirection: Axis.vertical,
-        children: List.generate(searchitems.length, (index) {
-          return
 
-              //10 10 10 5
-              GestureDetector(
-            onTap: () {
-              Get.to(
-                  providerview(
-                    categoryname:  LocalizeAndTranslate.getLanguageCode() == 'ar'
-                        ?  LocalizeAndTranslate.translate(categories[index].name_ar)
-                        :  LocalizeAndTranslate.translate(categories[index].name_en),
-                  ),
-                  arguments: searchitems[index].id);
-            },
-            child: Column(
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: 0, bottom: 5, right: 15, left: 15),
-                      child: Card(
-
-                          elevation: 3,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                              side: BorderSide(color: CustomColors.MainColor),
-                              borderRadius: BorderRadius.circular(7.0)),
-                          child: Center(
-                              child: Padding(
-                            padding: EdgeInsets.only(
-                                top: 10, bottom: 10, right: 15, left: 15),
-                            child: Image.network(
-                              "https://e-esh7nly.org/storage/${searchitems[index].icon}",
-                              width: 70,
-                              height: 50,
-                            ),
-                          )))),
-                  /*
-                                             
-                                              
-                                               */
-
-                  Center(
-                      child: customtext(
-                    text:  LocalizeAndTranslate.getLanguageCode() == 'ar'
-                        ? categories[index].name_ar
-                        : categories[index].name_en.length >= 18
-                            ? '${categories[index].name_en.toString().substring(0, 15)}'
-                            : '${categories[index].name_en}',
-                    maxLine: 1,
-                    fontSize: 15,
-                    color: CustomColors.MainColor,
-                    alignment: Alignment.center,
-                  ))
-                ]),
-          );
-        }));
-  }
 }
-/*   FutureBuilder(
-              future: _categoryApi.getallcategoriess(),
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return SizedBox(
-                      height: snapshot.data.length == 0 ? 0 : 600,
-                      child: Scrollbar(
-                          child: GridView.count(
-                              crossAxisCount: 2,
-                              shrinkWrap: true,
-                              crossAxisSpacing: 0,
-                              //  childAspectRatio: 23 / 12,
-                              childAspectRatio: 24 / 16,
-                              mainAxisSpacing: 0,
-                              scrollDirection: Axis.vertical,
-                              children:
-                                  List.generate(snapshot.data.length, (index) {
-                                return Padding(
-                                    // ignore: prefer_const_constructors
-                                    padding: EdgeInsets.only(
-                                        right: 10,
-                                        left: 10,
-                                        top: 10,
-                                        bottom: 5),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.to(providerview(),
-                                            arguments: snapshot.data[index].id);
-                                      },
-                                      child: Card(
-                                        color: CustomColors.MainColor,
-                                        elevation: 3,
-                                        clipBehavior: Clip.antiAlias,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0)),
-                                        child: Center(
-                                            child: Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 10, bottom: 10),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Image.network(
-                                                  "https://system.e-esh7nly.net/storage/${snapshot.data[index].icon}",
-                                                  width: 70,
-                                                  height: 50,
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Center(
-                                                    child: customtext(
-                                                  text:  LocalizeAndTranslate
-                                                              .getLanguageCode() ==
-                                                          'ar'
-                                                      ? snapshot
-                                                          .data[index].name_ar
-                                                      : snapshot
-                                                                  .data[index]
-                                                                  .name_en
-                                                                  .length >=
-                                                              18
-                                                          ? '${snapshot.data[index].name_en.toString().substring(0, 15)}'
-                                                          : '${snapshot.data[index].name_en}',
-                                                  maxLine: 1,
-                                                  fontSize: 17,
-                                                  color: Colors.white,
-                                                  fontweight: FontWeight.bold,
-                                                  alignment: Alignment.center,
-                                                ))
-                                              ]),
-                                        )),
-                                      ),
-                                    ));
-                              }))));
-                } else {
-                  // ignore: prefer_const_literals_to_create_immutables
-                  return Column(
-                    // ignore: prefer_const_literals_to_create_immutables
-                    children: [
-                      const SizedBox(
-                        height: 150,
-                      ),
-                      const Center(
-                        child: CircularProgressIndicator(
-                            // color: CustomColors.MainColor,
-                            ),
-                      )
-                    ],
-                  );
-                }
-              }) */

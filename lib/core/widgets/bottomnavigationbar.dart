@@ -25,6 +25,9 @@ class bottomnavigationbar extends StatelessWidget {
   ]; 
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
+    var height=screenwidth*.14;
     return GetBuilder<HomeViewModel>(
         init: HomeViewModel(),
         builder: (controler) => Directionality(
@@ -34,7 +37,7 @@ class bottomnavigationbar extends StatelessWidget {
                     ? TextDirection.ltr
                     : TextDirection.rtl,
             child:Container(    
-            height:    LocalizeAndTranslate.getLanguageCode()=='en'?55:63,                                        
+            height:height,
   decoration: BoxDecoration(                                                   
     borderRadius: BorderRadius.only(                                           
       topRight: Radius.circular(30), topLeft: Radius.circular(30)),            
@@ -66,15 +69,15 @@ class bottomnavigationbar extends StatelessWidget {
                     // ignore: prefer_const_literals_to_create_immutables                                      
          items:  <BottomNavigationBarItem>[                                        
          BottomNavigationBarItem(                            
-          icon: Image.asset('assets/gift .png',width: 30,height: 20,),label: LocalizeAndTranslate.translate("gift")),
+          icon: Image.asset('assets/gift .png',width:height*.4,height: height*.4,),label: LocalizeAndTranslate.translate("gift")),
         BottomNavigationBarItem(                                               
-          icon: Image.asset('assets/icon-03.png',width: 30,height: 20,), label: LocalizeAndTranslate.translate("support")),
+          icon: Image.asset('assets/icon-03.png',width:height*.4,height: height*.4,), label: LocalizeAndTranslate.translate("support")),
             BottomNavigationBarItem(                                               
-          icon: Image.asset('assets/icon-05.png',width: 30,height: 20), label:   LocalizeAndTranslate.translate("home screen")) ,
+          icon: Image.asset('assets/icon-05.png',width:height*.4,height: height*.4,), label:   LocalizeAndTranslate.translate("home screen")) ,
             BottomNavigationBarItem(                                               
-          icon: Image.asset('assets/icon-06.png',width: 30,height: 20), label:  LocalizeAndTranslate.translate("balance"))  ,
+          icon: Image.asset('assets/icon-06.png',width:height*.4,height: height*.4,), label:  LocalizeAndTranslate.translate("balance"))  ,
           BottomNavigationBarItem(                                               
-          icon: Image.asset('assets/icon-04.png',width: 30,height: 20), label:  LocalizeAndTranslate.translate("profile"))  ,
+          icon: Image.asset('assets/icon-04.png',width:height*.4,height: height*.4,), label:  LocalizeAndTranslate.translate("profile"))  ,
       ],                                                                       
     ),
                   ))

@@ -2,7 +2,7 @@
 import 'package:esh7enly/core/widgets/daioulge.dart';
 import 'package:esh7enly/views/Login/otpauth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
@@ -36,6 +36,8 @@ class _registerState extends State<register> {
   bool remeberme = false;
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         body: SingleChildScrollView(
             child: Directionality(
@@ -44,63 +46,64 @@ class _registerState extends State<register> {
            LocalizeAndTranslate.getLanguageCode() == 'en'
               ? TextDirection.ltr
               : TextDirection.rtl,
-      child: Form(
-        key: _globalKey,
-        child: Column(
+      child:   Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             header(
-              heightcon: 200,
+              heightcon: screenheight*.24,
             ),
             SizedBox(
-              height: 30.h,
+              height: screenheight/30,
             ),
             Center(
                 child: Text(
                LocalizeAndTranslate.translate("register"),
               style: TextStyle(
                 color: CustomColors.MainColor,
-                fontSize: 24.sp,
+                fontSize: 24,
                 fontFamily: 'ReadexPro',
               ),
             )),
-            Padding(
-                padding:
-                    EdgeInsets.only(top: 28, right: 25, left: 25, bottom: 5),
-                child: SizedBox(
-                  child: Expanded(child:Row(
+                Padding(
+                  padding:
+                  EdgeInsets.only(top: screenheight/35, right: screenwidth/17, left: screenwidth/17,),
+                  child:Form(
+                    key: _globalKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+            SizedBox(
+                  child:Row(
                     
                     children: [
                       SizedBox(
-                        width: 145.w,
+                        width:screenheight*.18,
                         child: CustomTextField(
                           hint:  LocalizeAndTranslate.translate("firstname"),
-                          w: 145.w,
+                          w:screenwidth*.3,
                           OnTab: () {},
                           controller: firstnamecontroller,
                         ),
                       ),
                       SizedBox(
-                        width: 10.w,
+                        width: screenwidth/50,
                       ),
+
                       SizedBox(
-                        width: 147.w,
+                        width: screenheight*.18,
                         child: CustomTextField(
                           hint:  LocalizeAndTranslate.translate("lastname"),
-                          w: 147.w,
+                          w: screenwidth*.3,
                           OnTab: () {},
                           controller: lastnamecontroller,
                         ),
                       )
                     ],
-                  ),)
-                )),
-            Padding(
-                padding:
-                    EdgeInsets.only(top: 20.h, right: 25.w, left: 25.w, bottom: 5.h),
-                child: CustomTextField(
-                  hint:  LocalizeAndTranslate.translate("Password"),
-                  w: 100.w,
+                  ),),
+SizedBox(height: screenheight/60,),
+           CustomTextField(
+                  hint:  LocalizeAndTranslate.translate("password"),
+
                   OnTab: () {},
                   controller: passwordcontroller,
                   obsesure: passwordsecure,
@@ -114,19 +117,16 @@ class _registerState extends State<register> {
                         ? const Icon(Icons.visibility_off)
                         : const Icon(Icons.visibility),
                   ),
-                )),
-            Padding(
-                padding:
-                    EdgeInsets.only(top: 10.h, right: 26.w, left: 26.w, bottom: 5.h),
-                child: Text(
+                ),
+                        SizedBox(height: screenheight/80),
+            Text(
                    LocalizeAndTranslate.translate("passwordcodition"),
                   style: TextStyle(color: CustomColors.MainColor, fontSize: 15),
-                )),
-            Padding(
-                padding: EdgeInsets.only(top: 10.h, right: 25.w, left: 25.w),
-                child: CustomTextField(
+                ),
+                        SizedBox(height: screenheight/60),
+            CustomTextField(
                   hint:  LocalizeAndTranslate.translate("confirm pass"),
-                  w: 100.w,
+
                   OnTab: () {},
                   controller: confirmpasswordcontroller,
                   obsesure: passwordsecureconfirm,
@@ -140,23 +140,20 @@ class _registerState extends State<register> {
                         ? const Icon(Icons.visibility_off)
                         : const Icon(Icons.visibility),
                   ),
-                )),
-            Padding(
-                padding: EdgeInsets.only(top: 20.h, right: 25.w, left: 25.w),
-                child: CustomTextField(
+                ),
+                        SizedBox(height: screenheight/60),
+           CustomTextField(
                   hint:  LocalizeAndTranslate.translate("em"),
-                  w: 100.w,
+
                   OnTab: () {},
                   controller: emailcontroller,
-                )),
+                ),
           SizedBox(
-              height: 10.h,
+              height: screenheight/90,
             ),
             Row(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w),
-                  child: Checkbox(
+                 Checkbox(
                     activeColor: remeberme ? Colors.blue : Colors.white,
                     checkColor: CustomColors.MainColor,
                     value: remeberme,
@@ -166,7 +163,7 @@ class _registerState extends State<register> {
                       });
                     },
                   ),
-                ),
+                SizedBox(height: screenheight/60),
                 Text(
                    LocalizeAndTranslate.translate("confirm"),
                   style: TextStyle(
@@ -177,7 +174,7 @@ class _registerState extends State<register> {
               ],
             ),
            SizedBox(
-              height: 10.h,
+              height:screenheight/90,
             ),
             GestureDetector(
                 onTap: () async {
@@ -247,7 +244,7 @@ class _registerState extends State<register> {
                   }
                 },
                 child: Container(
-                  height: 40.h,
+                  height: screenheight/18,
                   margin: const EdgeInsets.symmetric(horizontal: 29),
                   decoration: BoxDecoration(
                     color: CustomColors.MainColor,
@@ -259,12 +256,12 @@ class _registerState extends State<register> {
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'ReadexPro',
-                        fontSize: 15.sp,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold),
                   )),
                 )),
            SizedBox(
-              height: 10.h,
+              height: screenheight/90,
             ),
             Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -276,10 +273,10 @@ class _registerState extends State<register> {
                         color: Colors.grey[900],
                         fontFamily: 'ReadexPro',
                         fontWeight: FontWeight.w300,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 SizedBox(
-                    width: 10.w,
+                    width: screenheight/90,
                   ),
                   GestureDetector(
                       onTap: () async {
@@ -290,12 +287,11 @@ class _registerState extends State<register> {
                             color: CustomColors.MainColor,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'ReadexPro',
-                            fontSize: 18.sp,
+                            fontSize: 18,
                           )))
                 ]),
           ],
         ),
-      ),
-    )));
+    ))]))));
   }
 }

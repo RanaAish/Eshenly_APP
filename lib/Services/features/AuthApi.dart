@@ -68,7 +68,7 @@ class AuthApi extends ChangeNotifier {
   }
 
   Future Login(
-      String mobile, String imie, String password, String token) async {
+      var mobile, var imie, var password, var token) async {
     Map creds = {
       "mobile": mobile,
       "password": password,
@@ -95,12 +95,10 @@ class AuthApi extends ChangeNotifier {
               email: response.data["data"]["email"]);
         }
       }
-
       return response.data;
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+
+      //return e;
     }
     // return null;
   }
@@ -118,13 +116,7 @@ class AuthApi extends ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        /* if(response.data['status']==false){
-           if (response.data["data"]["middleware_validation_error"]["mobile"][0] ==
-            "The mobile has already been taken.") {
-          Get.snackbar("Verified", 'The mobile has already been taken');
-          Get.off(login());
-        }
-         } */
+
         if ((response.data['status']) != false) {
           storkey(response.data["data"]["key"]);
         }

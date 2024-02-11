@@ -32,15 +32,16 @@ class _ResultsState extends State<Results> {
   final serviceApi _serviceapi = serviceApi();
 
   Future refreshproviders() async {
-    //this.lists = await ProviderDatabase.instance.readAllNotes();
-    await ServiceDatabase.instance.readAllservices().then((value) {
+   await ServiceDatabase.instance.readAllservices().then((value) {
       setState(() {
-        lists = value
-            .where((element) =>
+        if(searchtext!="")
+          {
+            lists = value
+                .where((element) =>
                 element.name_en.toString().contains(
-                searchtext))
-            .toList();
-       
+                    searchtext))
+                .toList();
+          }
       });
     });
     return lists;
@@ -48,7 +49,7 @@ class _ResultsState extends State<Results> {
 
   @override
   void initState() {
-  
+
     super.initState();
   }
 
@@ -276,15 +277,15 @@ class _ResultsState extends State<Results> {
                                                )),
                                          ),
                                        )));
-                             }));
-
-                      } 
-                    /*  else if(lists.isEmpty)
+                             }));}
+                      else if(searchtext=="")
                       {
                         return Center(
-                          child: Lottie.asset('assets/animation_lmga1r6c.json')
+                            child: Lottie.asset('assets/animation_lmga1r6c.json')
                         );
-                      }*/
+                      }
+
+                    /*  */
                       else {
                         return  Padding(
                           padding: EdgeInsets.only(top: 200),

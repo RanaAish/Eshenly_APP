@@ -32,6 +32,8 @@ class _changeuserdataState extends State<changeuserdata> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -41,9 +43,7 @@ class _changeuserdataState extends State<changeuserdata> {
                      LocalizeAndTranslate.getLanguageCode() == 'en'
                         ? TextDirection.ltr
                         : TextDirection.rtl,
-                child: Form(
-                    key: _globalKey,
-                    child: Column(
+                child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
@@ -77,59 +77,66 @@ class _changeuserdataState extends State<changeuserdata> {
                                       ),
                                     ),
 
-                              ]))),
-                          SizedBox(
+                              ]))),Padding(
+                padding:
+                EdgeInsets.only(top: screenheight/35, right: screenwidth/12, left: screenwidth/12,),
+                child: Form(
+                    key: _globalKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                     SizedBox(
                             height: 130.h,
                           ),
-                          Padding(
-                              padding:
-                                  EdgeInsets.only(top: 25.h, right: 25.w, left: 25.w),
-                              child: CustomTextField(
+                          CustomTextField(
                                 hint:  LocalizeAndTranslate.translate("enter mob"),
-                                w: 100.w,
+
                                 OnTab: () {},
                                 controller: newmobile,
-                              )),
-                         Padding(
-                padding:
-                    EdgeInsets.only(top: 28.h, right: 28.w, left: 28.w, bottom: 5.h),
-                child: SizedBox(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 158.w,
-                        child: CustomTextField(
-                          hint:  LocalizeAndTranslate.translate("firstname"),
-                          w: 145.w,
-                          OnTab: () {},
-                          controller: firstnamecontroller,
+                              ),
+                        SizedBox(
+                          height: screenheight/30,
                         ),
-                      ),
-                      Spacer(),
-                      SizedBox(
-                        width: 158.w,
-                        child: CustomTextField(
-                          hint:  LocalizeAndTranslate.translate("lastname"),
-                          w: 147.w,
-                          OnTab: () {},
-                          controller: lastnamecontroller,
+                        SizedBox(
+                          child:Row(
+
+                            children: [
+                              SizedBox(
+                                width:screenheight*.18,
+                                child: CustomTextField(
+                                  hint:  LocalizeAndTranslate.translate("firstname"),
+
+                                  OnTab: () {},
+                                  controller: firstnamecontroller,
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenwidth/50,
+                              ),
+
+                              SizedBox(
+                                width: screenheight*.18,
+                                child: CustomTextField(
+                                  hint:  LocalizeAndTranslate.translate("lastname"),
+
+                                  OnTab: () {},
+                                  controller: lastnamecontroller,
+                                ),
+                              )
+                            ],
+                          ),),
+                        SizedBox(
+                          height: screenheight/30,
                         ),
-                      )
-                    ],
-                  ),
-                )),
-                          Padding(
-                              padding:
-                                  EdgeInsets.only(top: 25.h, right: 25.w, left: 25.w),
-                              child: CustomTextField(
+                         CustomTextField(
                                 hint:  LocalizeAndTranslate.translate("enter email"),
-                                w: 100.w,
+
                                 OnTab: () {},
                                 controller: newemail,
-                              )),
-                          SizedBox(
-                            height: 45.h,
-                          ),
+                              ),
+                        SizedBox(
+                          height: screenheight/30,
+                        ),
                           GestureDetector(
                             onTap: () async{
                               AuthApi authApi = AuthApi();
@@ -152,6 +159,7 @@ class _changeuserdataState extends State<changeuserdata> {
                                 });
                               }
                             },
+
                             child: Container(
                               height: 50.h,
                               margin:
@@ -172,7 +180,7 @@ class _changeuserdataState extends State<changeuserdata> {
                               ),
                             ),
                           )
-                        ])))));
+                        ])))]))));
   }
 
   void openAlert(String mess,bool status) {

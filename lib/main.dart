@@ -1,7 +1,11 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:esh7enly/core/widgets/font.dart';
+import 'package:esh7enly/views/HomeScreen/controllhome.dart';
+import 'package:esh7enly/views/Login/register.dart';
 import 'package:esh7enly/views/loadingview.dart';
+import 'package:esh7enly/views/onbroadingscreens/lastpage.dart';
+import 'package:esh7enly/views/onbroadingscreens/onbroadingpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -22,8 +26,7 @@ import 'Services/global/integration_firebase.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (message.messageId != "") {
-    print(
-        "Have received a background message!");
+
     LocalNotificationApi().shownotification(message: message);
   }
 }
@@ -73,7 +76,8 @@ class _MyAppState extends State<MyApp> {
         supportedLocales:  context.supportedLocales,
         builder: (context, child) {
           return ScreenUtilInit(
-              designSize: const Size(393, 804),
+              //designSize: const Size(393, 804),
+            designSize: const Size(360,690),
               minTextAdapt: true,
               splitScreenMode: true,
               builder: (context, child) {
@@ -81,7 +85,7 @@ class _MyAppState extends State<MyApp> {
                     debugShowCheckedModeBanner: false,
                     initialBinding: Binding(),
                     builder: EasyLoading.init(),
-                    home: Loading()); //Loading()
+                    home:Loading()); //
               });
         });
   }

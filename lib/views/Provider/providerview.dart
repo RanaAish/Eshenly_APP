@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types, deprecated_member_use, prefer_const_constructors, prefer_is_empty, sized_box_for_whitespace
 
 import 'package:esh7enly/db/providerdb.dart';
+import 'package:esh7enly/models/category.dart';
 import 'package:esh7enly/models/provider.dart';
 import 'package:esh7enly/views/Service/serviceview.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,8 @@ import 'package:esh7enly/core/widgets/customtext.dart';
 import 'package:localize_and_translate/localize_and_translate.dart';
 
 class providerview extends StatefulWidget {
-  final String categoryname;
-  const providerview({Key? key, required this.categoryname}) : super(key: key);
+
+  const providerview({Key? key}) : super(key: key);
 
   @override
   State<providerview> createState() => _providerviewState();
@@ -23,7 +24,7 @@ class providerview extends StatefulWidget {
 
 class _providerviewState extends State<providerview> {
   late List<Provider> lists = [];
-  int categoryid = Get.arguments;
+  Category category = Get.arguments;
 
   Future refreshproviders() async {
    
@@ -31,7 +32,7 @@ class _providerviewState extends State<providerview> {
     await ProviderDatabase.instance.readAllNotes().then((value) {
       setState(() {
         lists = value
-            .where((element) => element.category_id == categoryid)
+            .where((element) => element.category_id == category.id)
             .toList();
       });
     });
@@ -88,7 +89,8 @@ class _providerviewState extends State<providerview> {
                                     },
                                   )),
                            Expanded(child:  Text(
-                             '   ${widget.categoryname} ',overflow: TextOverflow.ellipsis,
+                             LocalizeAndTranslate.getLanguageCode() == 'ar'?
+                             '   ${category.name_ar}':'   ${category.name_en}',overflow: TextOverflow.ellipsis,
                              style: TextStyle(
                                fontSize: 19,
                                fontFamily: 'ReadexPro',

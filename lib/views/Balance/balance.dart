@@ -48,6 +48,8 @@ class _balanceState extends State<balance> {
 
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.white,
         body: Directionality(
@@ -70,7 +72,7 @@ class _balanceState extends State<balance> {
                               bottomLeft: Radius.circular(40))),
                       child:Padding(
                         padding:EdgeInsets.only(
-                          right: 30, left: 30, top: 42,bottom: 20),
+                          right: 30, left: 30, top: 48,bottom: 20),
                         child: Row(children: <Widget>[
                           SvgPicture.asset(
                             "assets/icon-06.svg",
@@ -129,7 +131,7 @@ class _balanceState extends State<balance> {
                         ]),
                       )),
                   SizedBox(
-                    height: 620,
+                    height: screenheight*.8,
                     child: PagewiseListView(
                         pageSize: 10,
                         padding: const EdgeInsets.all(5.0),

@@ -3,6 +3,7 @@
 import 'package:esh7enly/core/widgets/customtext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -53,7 +54,7 @@ class _otpState extends State<otp> {
                           customtext(
                             maxLine: 2,
                             color: CustomColors.MainColor,
-                            fontSize: 20, //23
+                            fontSize: 20.sp, //23
                             fontfamily: 'ReadexPro',
                             text:  LocalizeAndTranslate.translate("otp msg1"),
                           ),
@@ -63,7 +64,7 @@ class _otpState extends State<otp> {
                           customtext(
                             maxLine: 2,
                             color: CustomColors.MainColor,
-                            fontSize: 20, //23
+                            fontSize: 20.sp, //23
                             fontfamily: 'ReadexPro',
                             text:  LocalizeAndTranslate.translate("otp msg2"),
                           ),

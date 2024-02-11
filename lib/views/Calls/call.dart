@@ -59,7 +59,8 @@ class _callState extends State<call> {
       "assets/whats app.svg",
       "assets/mail.svg",
     ];
-
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth=MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 247, 245, 245),
         body: SingleChildScrollView(
@@ -74,7 +75,7 @@ class _callState extends State<call> {
                     children: <Widget>[
                       Container(
 
-                height: 90,width: 400,
+                height: 90,width: screenwidth,
                           decoration: const BoxDecoration(
                               color: CustomColors.MainColor,
                               borderRadius: BorderRadius.only(
@@ -97,7 +98,7 @@ class _callState extends State<call> {
                             padding: EdgeInsets.only(top: 40),
                             child: SizedBox(
                               width: 400,
-                              height: 280,
+                              height: screenheight,
                               child: ListView.builder(
                                   scrollDirection: Axis.vertical,
                                   itemCount: 3,

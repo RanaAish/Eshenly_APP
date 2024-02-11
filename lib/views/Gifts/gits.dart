@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? points = "0";
   @override
   void initState() {
+    if (mounted) {
     getpoints();
      _controller = VideoPlayerController.asset('assets/animation_lnr9tf6n.mp4');
     // Initialize the controller and store the Future for later use.
@@ -37,7 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     super.initState();
-  }
+  }}
+
 
   getpoints() {
     obj.getpoints().then((value) {
